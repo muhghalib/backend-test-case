@@ -4,7 +4,7 @@ import { IsNumber, IsOptional } from "class-validator";
 
 export class PaginationDto {
   @ApiProperty({
-    description: "The number of records per page",
+    description: "The number of page",
     example: 1,
     default: 1,
     required: false,

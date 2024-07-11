@@ -54,7 +54,7 @@ export class MembersService {
       data: this.mapMemberWithBorrowedCounts(paginatedMembers.data),
       page: paginatedMembers.page,
       entries: paginatedMembers.entries,
-      total_count: paginatedMembers.total_count,
+      data_count: paginatedMembers.data_count,
     };
   }
 

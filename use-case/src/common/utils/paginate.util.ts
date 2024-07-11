@@ -13,12 +13,12 @@ export async function paginate<T>(
   const queryBuilder =
     repository instanceof Repository ? repository.createQueryBuilder() : repository;
 
-  const [data, totalCount] = await queryBuilder.skip(offset).take(limit).getManyAndCount();
+  const [data, data_count] = await queryBuilder.skip(offset).take(limit).getManyAndCount();
 
   return {
     data,
     page,
     entries: limit,
-    total_count: totalCount,
+    data_count: data_count,
   };
 }

@@ -19,5 +19,5 @@ export class PaginatedResultDto<T> {
     description: "Total number of items available",
     example: 1,
   })
-  total_count: number;
+  data_count: number;
 }
