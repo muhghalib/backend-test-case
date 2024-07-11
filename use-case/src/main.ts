@@ -17,8 +17,6 @@ export const setSwagger = (app: INestApplication) => {
   const basicAuthPass = configService.get("BASIC_AUTH_PASS");
   const nodeEnv = configService.get("NODE_ENV");
 
-  console.log(nodeEnv);
-
   if (nodeEnv == "production") {
     app.use(
       basicAuth({
@@ -28,7 +26,7 @@ export const setSwagger = (app: INestApplication) => {
         },
         unauthorizedResponse: (req) => {
           if (req.auth) {
-            return "Unauthorized: Access is denied due to invalid credentials.";
+            return "Unauthorized: Access is denied due to basic auth invalid credentials.";
           } else {
             return "No basic auth credentials provided";
           }
