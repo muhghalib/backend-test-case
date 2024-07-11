@@ -13,7 +13,6 @@ import { BookStatusEnum } from "@src/common/enums/book-status.enum";
 export class FindAllBookQueryDto extends PaginationDto {
   @ApiProperty({
     description: "Search term for filtering books by name or code",
-    example: "NestJS Basics",
     required: false,
   })
   @Type(() => String)

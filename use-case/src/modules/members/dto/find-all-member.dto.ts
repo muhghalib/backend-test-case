@@ -10,7 +10,6 @@ import { Member } from "@database/entities/member.entity";
 export class FindAllMemberQueryDto extends PaginationDto {
   @ApiProperty({
     description: "Search term for filtering members by name or code",
-    example: "NestJS Basics",
     required: false,
   })
   @Type(() => String)
