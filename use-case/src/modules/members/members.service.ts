@@ -142,11 +142,11 @@ export class MembersService {
       // Calculate return date (7 days from current date)
       const returnDate = addDaysFromCurrentDate(7);
 
-      // Initialize a new BorrowedBook instance
-      const newBorrowedBook = new BorrowedBook();
-
       // Loop through each book_id and create BorrowedBook records
       for (const bookId of book_ids) {
+        // Initialize a new BorrowedBook instance
+        const newBorrowedBook = new BorrowedBook();
+
         // Assign values to newBorrowedBook instance
         newBorrowedBook.book_id = bookId;
         newBorrowedBook.member_id = member.id;
@@ -157,10 +157,10 @@ export class MembersService {
 
         // Update book borrowed_by_id to reference newBorrowedBook
         await this.bookRepository.update(bookId, { borrowed_by_id: newBorrowedBook.id });
-      }
 
-      // push the new borrowed books to the current borrowed books
-      member.borrowed_books.push(newBorrowedBook);
+        // push the new borrowed books to the current borrowed books
+        member.borrowed_books.push(newBorrowedBook);
+      }
 
       // Commit transaction if all operations succeed
       await queryRunner.commitTransaction();
