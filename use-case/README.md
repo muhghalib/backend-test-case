@@ -1,6 +1,3 @@
-Here's your updated `README.md` with instructions for running the seeder:
-
-````markdown
 # Backend Test Case REST API
 
 This project is a backend test case REST API designed for experimenting and testing backend functionalities. The application is built using Node.js (v20.0.0^).
@@ -19,7 +16,6 @@ yarn install
 # Using pnpm
 pnpm install
 ```
-````
 
 ### Setup Environment
 
