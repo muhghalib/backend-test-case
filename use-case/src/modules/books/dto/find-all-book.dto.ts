@@ -21,7 +21,7 @@ export class FindAllBookQueryDto extends PaginationDto {
   search?: string = "";
 
   @ApiProperty({
-    description: "Search term for filtering books by name or code",
+    description: "Book status filtering can be available or unavailable",
     required: false,
     enum: BookStatusEnum,
   })
