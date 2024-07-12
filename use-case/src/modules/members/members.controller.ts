@@ -58,7 +58,7 @@ export class MembersController {
     return this.membersService.findOne(findOneMemberParamDto);
   }
 
-  @ApiResponse({ status: 201, type: BulkBorrowBookOkResponseDto })
+  @ApiResponse({ status: 200, type: BulkBorrowBookOkResponseDto })
   @ApiResponse({ status: 400, description: "Validation failed, the data provided is invalid" })
   @ApiResponse({ status: 404, description: "The member is not found" })
   @ApiResponse({ status: 403, description: "The member are being penalized" })
@@ -72,7 +72,7 @@ export class MembersController {
     description: "One or more books are not available to borrow",
   })
   @Patch("/:id/bulk-borrow-book")
-  @HttpCode(201)
+  @HttpCode(200)
   bulkBorrowBook(
     @Param() bulkBorrowBookParamDto: BulkBorrowBookParamDto,
     @Body(new ValidationPipe()) bulkBorrowBookBodyDto: BulkBorrowBookBodyDto,
@@ -80,7 +80,7 @@ export class MembersController {
     return this.membersService.bulkBorrowBook(bulkBorrowBookParamDto, bulkBorrowBookBodyDto);
   }
 
-  @ApiResponse({ status: 201, type: BulkReturnBookOkResponseDto })
+  @ApiResponse({ status: 200, type: BulkReturnBookOkResponseDto })
   @ApiResponse({ status: 400, description: "Validation failed, the data provided is invalid" })
   @ApiResponse({ status: 404, description: "The member is not found" })
   @ApiResponse({
@@ -88,7 +88,7 @@ export class MembersController {
     description: "The member has not borrowed one or more of the books",
   })
   @Patch("/:id/bulk-return-book")
-  @HttpCode(201)
+  @HttpCode(200)
   bulkReturnBook(
     @Param() bulkReturnBookParamDto: BulkReturnBookParamsDto,
     @Body(new ValidationPipe()) bulkReturnBookBodyDto: BulkReturnBookBodyDto,
