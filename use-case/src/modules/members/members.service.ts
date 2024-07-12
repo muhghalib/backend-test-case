@@ -28,10 +28,6 @@ export class MembersService {
   constructor(
     @InjectRepository(Member)
     private readonly memberRepository: Repository<Member>,
-    @InjectRepository(BorrowedBook)
-    private readonly borrowedBookRepository: Repository<BorrowedBook>,
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
     private dataSource: DataSource,
   ) {}
 
@@ -104,7 +100,7 @@ export class MembersService {
       const { book_ids } = bulkBorrowBookBodyDto;
 
       // Retrieve member with borrowed_books relations
-      const member = await this.memberRepository.findOne({
+      const member = await queryRunner.manager.findOne(Member, {
         where: { id },
         relations: {
           borrowed_books: true,
@@ -127,7 +123,7 @@ export class MembersService {
       }
 
       // Find available books by their IDs
-      const availableBooks = await this.bookRepository.find({
+      const availableBooks = await queryRunner.manager.find(Book, {
         where: book_ids.map((bookId) => ({ id: bookId, borrowed_by_id: IsNull() })),
       });
 
@@ -153,10 +149,10 @@ export class MembersService {
         newBorrowedBook.return_date = returnDate;
 
         // Save newBorrowedBook record to borrowedBookRepository
-        await this.borrowedBookRepository.save(newBorrowedBook);
+        await queryRunner.manager.save(BorrowedBook, newBorrowedBook);
 
         // Update book borrowed_by_id to reference newBorrowedBook
-        await this.bookRepository.update(bookId, { borrowed_by_id: newBorrowedBook.id });
+        await queryRunner.manager.update(Book, bookId, { borrowed_by_id: newBorrowedBook.id });
 
         // push the new borrowed books to the current borrowed books
         member.borrowed_books.push(newBorrowedBook);
@@ -198,7 +194,7 @@ export class MembersService {
       const { book_ids } = bulkReturnBookBodyDto;
 
       // Retrieve member with borrowed_books relations
-      const member = await this.memberRepository.findOne({
+      const member = await queryRunner.manager.findOne(Member, {
         where: { id },
         relations: {
           borrowed_books: true,
@@ -209,7 +205,7 @@ export class MembersService {
       if (!member) throw new NotFoundException("Member not found");
 
       // Find borrowed books by member and book_ids
-      const borrowedBooks = await this.borrowedBookRepository.find({
+      const borrowedBooks = await queryRunner.manager.find(BorrowedBook, {
         where: book_ids.map((bookId) => ({ member_id: member.id, book_id: bookId })),
       });
 
@@ -233,12 +229,12 @@ export class MembersService {
         member.penalty_exp_date = penaltyExpDate.toISOString();
 
         // save the penalty exp date
-        await this.memberRepository.save(member);
+        await queryRunner.manager.save(Member, member);
       }
 
       // Delete each borrowed book record
       for (const borrowedBook of borrowedBooks) {
-        await this.borrowedBookRepository.delete(borrowedBook.id);
+        await queryRunner.manager.delete(BorrowedBook, borrowedBook.id);
 
         // Update member's borrowed_books array (if necessary)
         member.borrowed_books = member.borrowed_books.filter(({ id }) => id !== borrowedBook.id);

@@ -4,11 +4,8 @@ import { MembersController } from "./members.controller";
 
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Member } from "@database/entities/member.entity";
-import { BorrowedBook } from "@database/entities/borrowed-book.entity";
-import { Book } from "@database/entities/book.entity";
-
 @Module({
-  imports: [TypeOrmModule.forFeature([Member, BorrowedBook, Book])],
+  imports: [TypeOrmModule.forFeature([Member])],
   controllers: [MembersController],
   providers: [MembersService],
 })
